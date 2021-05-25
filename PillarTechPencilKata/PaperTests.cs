@@ -9,6 +9,12 @@ namespace PencilKataTests
         private const string C_shells = "She sells sea shells";
         private const string C_shore = " down by the sea shore";
 
+        private void ReceiveAndAssert(Paper paper, string textToWrite, string expected)
+        {
+            paper.ReceiveWriting(textToWrite);
+            Assert.AreEqual(expected, paper.Text);
+        }
+
         [TestMethod]
         public void TestPaperEmptyByDefault()
         { 
@@ -23,10 +29,8 @@ namespace PencilKataTests
         public void TestRecieveWriting(string writeFirst, string writeSecond)
         {
             var paper = new Paper();
-            paper.ReceiveWriting(writeFirst);
-            Assert.AreEqual(writeFirst, paper.Text);
-            paper.ReceiveWriting(writeSecond);
-            Assert.AreEqual(writeFirst+writeSecond, paper.Text);
+            ReceiveAndAssert(paper, writeFirst, writeFirst);
+            ReceiveAndAssert(paper, writeSecond, writeFirst + writeSecond);
         }
     }
 }
