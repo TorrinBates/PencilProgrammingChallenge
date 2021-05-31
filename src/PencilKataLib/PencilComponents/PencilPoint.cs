@@ -2,12 +2,16 @@
 {
     public class PencilPoint
     {
+        private readonly int _initialPointValue;
         public PencilPoint(int pointValue)
         {
             PointValue = pointValue;
+            _initialPointValue = pointValue;
         }
 
         public int PointValue { get; private set; }
+
+        public void Sharpen() => PointValue = _initialPointValue;
 
         public void Write(Paper paper, string textToWrite)
         {

@@ -9,10 +9,11 @@ namespace PencilKataTests
         private const string C_num = "One fish, Two fish\n";
         private const string C_color = "Red fish, Blue fish.";
 
-        private void WriteAndAssert(Pencil pencil, Paper paper, string textToWrite, string expected)
+        private void WriteAndAssert(Pencil pencil, Paper paper, string textToWrite, string expected, int initialDurability, bool checkPoint=true)
         {
             pencil.Write(paper, textToWrite);
             Assert.AreEqual(expected, paper.Text);
+            if (checkPoint) Assert.IsTrue(pencil.GetPointValue() < initialDurability);
         }
 
         [TestMethod]
@@ -22,9 +23,9 @@ namespace PencilKataTests
         public void Writing(string writeFirst, string writeSecond)
         {
             var paper = new Paper();
-            var pencil = new Pencil(100);
-            WriteAndAssert(pencil, paper, writeFirst, writeFirst);
-            WriteAndAssert(pencil, paper, writeSecond, writeFirst+writeSecond);
+            var pencil = new Pencil(1, 100);
+            WriteAndAssert(pencil, paper, writeFirst, writeFirst, 1, false);
+            WriteAndAssert(pencil, paper, writeSecond, writeFirst+writeSecond, 1, false);
         }
 
         [TestMethod]
@@ -33,8 +34,23 @@ namespace PencilKataTests
         public void PointDegradation(int pointDurability, string toWrite, string expected)
         {
             var paper = new Paper();
-            var pencil = new Pencil(pointDurability);
-            WriteAndAssert(pencil, paper, toWrite, expected);
+            var pencil = new Pencil(1, pointDurability);
+            Assert.AreEqual(pencil.GetPointValue(), pointDurability);
+            WriteAndAssert(pencil, paper, toWrite, expected, pointDurability);
+        }
+
+        [TestMethod]
+        [DataRow(10, 50, C_color, C_color)]
+        [DataRow(10, 14, "Red fish, Blue      ", "Red fish, Blue      ")]
+        public void LengthDegradation(int length, int pointDurability, string expected1, string expected2)
+        {
+            var pencil = new Pencil(length, pointDurability);
+            Assert.AreEqual(pencil.Length, length);
+            WriteAndAssert(pencil, new Paper(), C_color, expected1, pointDurability);
+            pencil.Sharpen();
+            Assert.AreEqual(pencil.GetPointValue(), pointDurability);
+            Assert.AreEqual(pencil.Length, length-1);
+            WriteAndAssert(pencil, new Paper(), C_color, expected2, pointDurability);
         }
     }
 }
