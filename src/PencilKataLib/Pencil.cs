@@ -13,8 +13,11 @@
 
         public void Sharpen()
         {
-            _point.Sharpen();
-            Length -= 1;
+            if (Length > 0)
+            {
+                _point.Sharpen();
+                Length -= 1;
+            }
         }
 
         public void Write(Paper paper, string textToWrite) => _point.Write(paper, textToWrite);

@@ -52,5 +52,16 @@ namespace PencilKataTests
             Assert.AreEqual(pencil.Length, length-1);
             WriteAndAssert(pencil, new Paper(), C_color, expected2, pointDurability);
         }
+
+        [TestMethod]
+        public void SharpenWhenLengthZero()
+        {
+            var paper = new Paper();
+            var pencil = new Pencil(0, 100);
+            WriteAndAssert(pencil, paper, C_num, C_num, 100);
+            pencil.Sharpen();
+            Assert.AreEqual(pencil.Length, 0);
+            Assert.IsTrue(pencil.GetPointValue() < 100);
+        }
     }
 }
