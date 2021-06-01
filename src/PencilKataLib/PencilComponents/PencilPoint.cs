@@ -21,7 +21,7 @@
 
         private char DegradePoint(char c)
         {
-            if (c != ' ' && c != '\n')
+            if (!char.IsWhiteSpace(c))
             {
                 var degradeAmount = char.IsUpper(c) ? 2 : 1;
                 if (PointValue >= degradeAmount) PointValue -= degradeAmount;

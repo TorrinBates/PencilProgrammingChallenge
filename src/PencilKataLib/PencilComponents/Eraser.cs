@@ -2,11 +2,22 @@
 {
     public class Eraser
     {
-        public void Erase(Paper paper, string toErase)
+        public Eraser(int eraserValue)
         {
-            var blankSpace = new string(' ', toErase.Length);
-            var index = paper.Text.LastIndexOf(toErase);
-            paper.ReceiveErasing(paper.Text.Remove(index, toErase.Length).Insert(index, blankSpace));
+            EraserValue = eraserValue;
+        }
+
+        public int EraserValue { get; private set; }
+
+        public void Erase(Paper paper, string textToErase)
+        {
+            var startIndex = paper.Text.LastIndexOf(textToErase);
+
+            for (int i = startIndex + textToErase.Length - 1; i >= startIndex; i--)
+            {
+                EraserValue -= 1;
+                paper.ReceiveErasing(i);
+            }
         }
     }
 }

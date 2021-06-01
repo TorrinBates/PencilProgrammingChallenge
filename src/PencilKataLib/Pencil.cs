@@ -4,11 +4,11 @@
     {
         private PencilPoint _point;
         private Eraser _eraser;
-        public Pencil(int length, int pointValue)
+        public Pencil(int length, int pointValue, int eraserValue)
         {
             Length = length;
             _point = new PencilPoint(pointValue);
-            _eraser = new Eraser();
+            _eraser = new Eraser(eraserValue);
         }
 
         public int Length { get; private set; }
@@ -27,5 +27,7 @@
         public void Erase(Paper paper, string textToErase) => _eraser.Erase(paper, textToErase);
 
         public int GetPointValue() => _point.PointValue;
+
+        public int GetEraserValue() => _eraser.EraserValue;
     }
 }
