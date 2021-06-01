@@ -80,18 +80,19 @@ namespace PencilKataTests
             var pencil = new Pencil(C_DefaultLength, C_DefaultPoint, C_DefaultEraser);
             WriteAndAssert(pencil, paper, C_color, C_color, C_DefaultPoint);
             EraseAndAssert(pencil, paper, "fish", "Red fish, Blue     .");
-            EraseAndAssert(pencil, paper, "fish", "Red     , Blue     .");
+            EraseAndAssert(pencil, paper, " fish", "Red     , Blue     .");
         }
 
         [TestMethod]
         [DataRow(10, 6, "fish")]
+        [DataRow(10, 10, " ")]
         public void EraserDegradation(int eraserDurability, int finalDurability, string toErase)
         {
             var paper = new Paper();
             var pencil = new Pencil(C_DefaultLength, C_DefaultPoint, eraserDurability);
             Assert.AreEqual(pencil.GetEraserValue(), eraserDurability);
             WriteAndAssert(pencil, paper, C_color, C_color, C_DefaultPoint);
-            EraseAndAssert(pencil, paper, toErase, "Red fish, Blue     .");
+            pencil.Erase(paper, toErase);
             Assert.AreEqual(pencil.GetEraserValue(), finalDurability);
         }
     }

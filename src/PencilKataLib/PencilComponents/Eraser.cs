@@ -15,7 +15,7 @@
 
             for (int i = startIndex + textToErase.Length - 1; i >= startIndex; i--)
             {
-                EraserValue -= 1;
+                if (!char.IsWhiteSpace(paper.Text[i])) EraserValue -= 1;
                 paper.ReceiveErasing(i);
             }
         }
