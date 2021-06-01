@@ -95,5 +95,16 @@ namespace PencilKataTests
             pencil.Erase(paper, toErase);
             Assert.AreEqual(pencil.GetEraserValue(), finalDurability);
         }
+
+        [TestMethod]
+        public void EraseWhenZero()
+        {
+            var paper = new Paper();
+            var pencil = new Pencil(C_DefaultLength, C_DefaultPoint, 0);
+            WriteAndAssert(pencil, paper, C_color, C_color, C_DefaultPoint);
+            pencil.Erase(paper, C_color);
+            Assert.AreEqual(pencil.GetEraserValue(), 0);
+            Assert.AreEqual(paper.Text, C_color);
+        }
     }
 }
