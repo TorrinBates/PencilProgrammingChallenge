@@ -2,8 +2,8 @@
 {
     public class Pencil
     {
-        private PencilPoint _point;
-        private Eraser _eraser;
+        private readonly PencilPoint _point;
+        private readonly Eraser _eraser;
         public Pencil(int length, int pointValue, int eraserValue)
         {
             Length = length;
@@ -22,7 +22,9 @@
             }
         }
 
-        public void Write(Paper paper, string textToWrite) => _point.Write(paper, textToWrite);
+        public void Write(Paper paper, string textToWrite) => _point.Write(paper, textToWrite, paper.Text.Length);
+
+        public void Write(Paper paper, string textToWrite, int startIndex) => _point.Write(paper, textToWrite, startIndex);
 
         public void Erase(Paper paper, string textToErase) => _eraser.Erase(paper, textToErase);
 

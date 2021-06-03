@@ -106,5 +106,16 @@ namespace PencilKataTests
             Assert.AreEqual(pencil.GetEraserValue(), 0);
             Assert.AreEqual(paper.Text, C_color);
         }
+
+        [TestMethod]
+        public void Edit()
+        {
+            var paper = new Paper();
+            var pencil = new Pencil(C_DefaultLength, C_DefaultPoint, C_DefaultEraser);
+            var a = "An       a day keeps the doctor away";
+            WriteAndAssert(pencil, paper, a, a, C_DefaultPoint);
+            pencil.Write(paper, "artichoke", 3);
+            Assert.AreEqual(paper.Text, "An artich@k@ay keeps the doctor away");
+        }
     }
 }

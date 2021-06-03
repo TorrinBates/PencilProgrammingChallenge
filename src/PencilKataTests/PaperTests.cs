@@ -8,7 +8,7 @@ namespace PencilKataTests
     {
         private void ReceiveAndAssert(Paper paper, char newChar, string expected)
         {
-            paper.ReceiveWriting(newChar);
+            paper.ReceivePencil(newChar, paper.Text.Length);
             Assert.AreEqual(expected, paper.Text);
         }
 

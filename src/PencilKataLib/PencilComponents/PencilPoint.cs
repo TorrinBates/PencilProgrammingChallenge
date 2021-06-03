@@ -13,10 +13,13 @@
 
         public void Sharpen() => PointValue = _initialPointValue;
 
-        public void Write(Paper paper, string textToWrite)
+        public void Write(Paper paper, string textToWrite, int startIndex)
         {
-            foreach (var c in textToWrite)
-                paper.ReceiveWriting(DegradePoint(c));
+            for (int i = 0; i < textToWrite.Length; i++)
+            {
+                var charToWrite = (startIndex + i < paper.Text.Length && paper.Text[startIndex + i] != ' ') ? '@' : textToWrite[i];
+                paper.ReceivePencil(DegradePoint(charToWrite), startIndex + i);
+            }
         }
 
         private char DegradePoint(char c)
