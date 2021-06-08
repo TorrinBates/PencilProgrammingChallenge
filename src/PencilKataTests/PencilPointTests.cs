@@ -7,7 +7,7 @@ namespace PencilKataTests
     public class PencilPointTests
     {
         private const string C_fish = "A purple puffer fish ";
-        private const int C_pointV = 25;
+        private const int C_pointV = 40;
         private Paper _testPaper;
         private PencilPoint _testPencilPoint;
 
@@ -53,6 +53,26 @@ namespace PencilKataTests
             _testPencilPoint = new PencilPoint(1);
             _testPencilPoint.Write(_testPaper, "world", 0);
             Assert.AreEqual(_testPaper.Text, "w    ");
+        }
+
+        [TestMethod]
+        [DataRow("onion", "An onion a day keeps the doctor away")]
+        [DataRow("artichoke", "An artich@k@ay keeps the doctor away")]
+        public void EditingText(string edit, string expected)
+        {
+            var txt = "An       a day keeps the doctor away";
+            WriteAndAssert(txt, txt);
+            _testPencilPoint.Write(_testPaper, edit, 3);
+            Assert.AreEqual(_testPaper.Text, expected);
+        }
+
+        [TestMethod]
+        public void EditingConflictPointDegradation()
+        {
+            Assert.AreEqual(_testPencilPoint.PointValue, C_pointV);
+            _testPencilPoint.Write(_testPaper, "A", 0);
+            _testPencilPoint.Write(_testPaper, "B", 0);
+            Assert.AreEqual(_testPencilPoint.PointValue, C_pointV-4);
         }
     }
 }

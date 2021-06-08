@@ -17,8 +17,9 @@
         {
             for (int i = 0; i < textToWrite.Length; i++)
             {
-                var charToWrite = (startIndex + i < paper.Text.Length && paper.Text[startIndex + i] != ' ') ? '@' : textToWrite[i];
-                paper.ReceivePencil(DegradePoint(charToWrite), startIndex + i);
+                var charToWrite = DegradePoint(textToWrite[i]); 
+                if (startIndex + i < paper.Text.Length && paper.Text[startIndex + i] != ' ') charToWrite = '@';
+                paper.ReceivePencil(charToWrite, startIndex + i);
             }
         }
 
