@@ -14,7 +14,7 @@ namespace PencilKataTests
         private void WriteAndAssert(string textToWrite, string expected)
         {
             _testPencilPoint.Write(_testPaper, textToWrite, _testPaper.Text.Length);
-            Assert.AreEqual(_testPaper.Text, expected);
+            Assert.AreEqual(expected, _testPaper.Text);
         }
 
         [TestInitialize]
@@ -42,9 +42,9 @@ namespace PencilKataTests
         [DataRow(C_pointV-7, "WaSd.")]
         public void PointDegradation(int expectedFinalPoint, string toWrite)
         {
-            Assert.AreEqual(_testPencilPoint.PointValue, C_pointV);
+            Assert.AreEqual(C_pointV, _testPencilPoint.PointValue);
             _testPencilPoint.Write(_testPaper, toWrite, 0);
-            Assert.AreEqual(_testPencilPoint.PointValue, expectedFinalPoint);
+            Assert.AreEqual(expectedFinalPoint, _testPencilPoint.PointValue);
         }
 
         [TestMethod]
@@ -52,7 +52,7 @@ namespace PencilKataTests
         {
             _testPencilPoint = new PencilPoint(1);
             _testPencilPoint.Write(_testPaper, "world", 0);
-            Assert.AreEqual(_testPaper.Text, "w    ");
+            Assert.AreEqual("w    ", _testPaper.Text);
         }
 
         [TestMethod]
@@ -63,16 +63,18 @@ namespace PencilKataTests
             var txt = "An       a day keeps the doctor away";
             WriteAndAssert(txt, txt);
             _testPencilPoint.Write(_testPaper, edit, 3);
-            Assert.AreEqual(_testPaper.Text, expected);
+            Assert.AreEqual(expected, _testPaper.Text);
         }
 
         [TestMethod]
         public void EditingConflictPointDegradation()
         {
-            Assert.AreEqual(_testPencilPoint.PointValue, C_pointV);
+            Assert.AreEqual(C_pointV, _testPencilPoint.PointValue);
             _testPencilPoint.Write(_testPaper, "A", 0);
             _testPencilPoint.Write(_testPaper, "B", 0);
-            Assert.AreEqual(_testPencilPoint.PointValue, C_pointV-4);
+            Assert.AreEqual(C_pointV - 4, _testPencilPoint.PointValue);
         }
+
+
     }
 }

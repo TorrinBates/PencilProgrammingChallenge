@@ -12,7 +12,7 @@
         public void Erase(Paper paper, string textToErase)
         {
             var startIndex = paper.Text.LastIndexOf(textToErase);
-            for (int i = startIndex + textToErase.Length - 1; i >= startIndex && EraserValue > 0; i--)
+            for (int i = startIndex + textToErase.Length - 1; i >= startIndex && startIndex >= 0 && EraserValue > 0; i--)
             {
                 if (!char.IsWhiteSpace(paper.Text[i])) EraserValue -= 1;
                 paper.ReceivePencil(' ', i);

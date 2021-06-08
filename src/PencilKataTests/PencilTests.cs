@@ -19,12 +19,6 @@ namespace PencilKataTests
             if (checkPoint) Assert.IsTrue(pencil.GetPointValue() < initialDurability);
         }
 
-        private void EraseAndAssert(Pencil pencil, Paper paper, string textToErase, string expected)
-        {
-            pencil.Erase(paper, textToErase);
-            Assert.AreEqual(paper.Text, expected);
-        }
-
         [TestMethod]
         [DataRow(10, 50, C_color, C_color)]
         [DataRow(10, 14, "Red fish, Blue      ", "Red fish, Blue      ")]
@@ -48,40 +42,6 @@ namespace PencilKataTests
             pencil.Sharpen();
             Assert.AreEqual(pencil.Length, 0);
             Assert.IsTrue(pencil.GetPointValue() < C_DefaultPoint);
-        }
-
-        [TestMethod]
-        public void Erasing()
-        {
-            var paper = new Paper();
-            var pencil = new Pencil(C_DefaultLength, C_DefaultPoint, C_DefaultEraser);
-            WriteAndAssert(pencil, paper, C_color, C_color, C_DefaultPoint);
-            EraseAndAssert(pencil, paper, "fish", "Red fish, Blue     .");
-            EraseAndAssert(pencil, paper, " fish", "Red     , Blue     .");
-        }
-
-        [TestMethod]
-        [DataRow(10, 6, "fish")]
-        [DataRow(10, 10, " ")]
-        public void EraserDegradation(int eraserDurability, int finalDurability, string toErase)
-        {
-            var paper = new Paper();
-            var pencil = new Pencil(C_DefaultLength, C_DefaultPoint, eraserDurability);
-            Assert.AreEqual(pencil.GetEraserValue(), eraserDurability);
-            WriteAndAssert(pencil, paper, C_color, C_color, C_DefaultPoint);
-            pencil.Erase(paper, toErase);
-            Assert.AreEqual(pencil.GetEraserValue(), finalDurability);
-        }
-
-        [TestMethod]
-        public void EraseWhenZero()
-        {
-            var paper = new Paper();
-            var pencil = new Pencil(C_DefaultLength, C_DefaultPoint, 0);
-            WriteAndAssert(pencil, paper, C_color, C_color, C_DefaultPoint);
-            pencil.Erase(paper, C_color);
-            Assert.AreEqual(pencil.GetEraserValue(), 0);
-            Assert.AreEqual(paper.Text, C_color);
         }
     }
 }
