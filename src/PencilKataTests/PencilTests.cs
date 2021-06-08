@@ -26,29 +26,6 @@ namespace PencilKataTests
         }
 
         [TestMethod]
-        [DataRow(C_num, C_color)]
-        [DataRow("", C_color)]
-        [DataRow(C_num, "")]
-        public void Writing(string writeFirst, string writeSecond)
-        {
-            var paper = new Paper();
-            var pencil = new Pencil(C_DefaultLength, C_DefaultPoint, C_DefaultEraser);
-            WriteAndAssert(pencil, paper, writeFirst, writeFirst, 1, false);
-            WriteAndAssert(pencil, paper, writeSecond, writeFirst+writeSecond, 1, false);
-        }
-
-        [TestMethod]
-        [DataRow(17, C_num, C_num)]
-        [DataRow(5, C_color, "Red f               ")]
-        public void PointDegradation(int pointDurability, string toWrite, string expected)
-        {
-            var paper = new Paper();
-            var pencil = new Pencil(1, pointDurability, C_DefaultEraser);
-            Assert.AreEqual(pencil.GetPointValue(), pointDurability);
-            WriteAndAssert(pencil, paper, toWrite, expected, pointDurability);
-        }
-
-        [TestMethod]
         [DataRow(10, 50, C_color, C_color)]
         [DataRow(10, 14, "Red fish, Blue      ", "Red fish, Blue      ")]
         public void LengthDegradation(int length, int pointDurability, string expected1, string expected2)
@@ -105,17 +82,6 @@ namespace PencilKataTests
             pencil.Erase(paper, C_color);
             Assert.AreEqual(pencil.GetEraserValue(), 0);
             Assert.AreEqual(paper.Text, C_color);
-        }
-
-        [TestMethod]
-        public void Edit()
-        {
-            var paper = new Paper();
-            var pencil = new Pencil(C_DefaultLength, C_DefaultPoint, C_DefaultEraser);
-            var a = "An       a day keeps the doctor away";
-            WriteAndAssert(pencil, paper, a, a, C_DefaultPoint);
-            pencil.Write(paper, "artichoke", 3);
-            Assert.AreEqual(paper.Text, "An artich@k@ay keeps the doctor away");
         }
     }
 }
