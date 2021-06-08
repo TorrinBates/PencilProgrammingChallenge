@@ -6,28 +6,35 @@ namespace PencilKataTests
     [TestClass]
     public class PaperTests
     {
-        private void ReceiveAndAssert(Paper paper, char newChar, string expected)
+        private Paper _testPaper;
+
+        private void ReceiveAndAssert(Paper paper, char newChar, string expected, int index)
         {
-            paper.ReceivePencil(newChar, paper.Text.Length);
+            paper.ReceivePencil(newChar, index);
             Assert.AreEqual(expected, paper.Text);
         }
 
+        [TestInitialize]
+        public void Setup() => _testPaper = new Paper();
+
         [TestMethod]
-        public void PaperEmptyByDefault()
-        { 
-            var paper = new Paper();
-            Assert.AreEqual(string.Empty, paper.Text);
-        }
+        public void PaperEmptyByDefault() => Assert.AreEqual(string.Empty, _testPaper.Text);
 
         [TestMethod]
         [DataRow('L', 'a')]
         [DataRow(' ', 'z')]
         public void RecieveWriting(char writeFirst, char writeSecond)
         {
-            var paper = new Paper();
             var writeAsString = writeFirst.ToString();
-            ReceiveAndAssert(paper, writeFirst, writeAsString);
-            ReceiveAndAssert(paper, writeSecond, writeAsString + writeSecond);
+            ReceiveAndAssert(_testPaper, writeFirst, writeAsString, _testPaper.Text.Length);
+            ReceiveAndAssert(_testPaper, writeSecond, writeAsString + writeSecond, _testPaper.Text.Length);
+        }
+
+        [TestMethod]
+        public void RecieveWritingOverWrite()
+        {
+            ReceiveAndAssert(_testPaper, 'A', "A", 0);
+            ReceiveAndAssert(_testPaper, 'B', "B", 0);
         }
     }
 }
