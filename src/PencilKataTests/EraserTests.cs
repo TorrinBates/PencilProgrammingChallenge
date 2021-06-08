@@ -8,7 +8,6 @@ namespace PencilKataTests
     {
         private const int C_eraserV = 40;
         private Paper _testPaper;
-        private PencilPoint _testPencilPoint;
         private Eraser _testEraser;
 
         private void EraseAndAssert(string textToErase, string expected)
@@ -21,8 +20,7 @@ namespace PencilKataTests
         public void Setup()
         {
             _testPaper = new Paper();
-            _testPencilPoint = new PencilPoint(100);
-            _testPencilPoint.Write(_testPaper, "One fish, Two fish\n", 0);
+            new PencilPoint(100).Write(_testPaper, "One fish, Two fish\n", 0);
             _testEraser = new Eraser(C_eraserV);
         }
 

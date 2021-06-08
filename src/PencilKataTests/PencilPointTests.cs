@@ -75,6 +75,14 @@ namespace PencilKataTests
             Assert.AreEqual(C_pointV - 4, _testPencilPoint.PointValue);
         }
 
-
+        [TestMethod]
+        public void Sharpen()
+        {
+            Assert.AreEqual(C_pointV, _testPencilPoint.PointValue);
+            _testPencilPoint.Write(_testPaper, "QWERTY", 0);
+            Assert.IsTrue(_testPencilPoint.PointValue < C_pointV);
+            _testPencilPoint.Sharpen();
+            Assert.AreEqual(C_pointV, _testPencilPoint.PointValue);
+        }
     }
 }

@@ -6,42 +6,50 @@ namespace PencilKataTests
     [TestClass]
     public class PencilTests
     {
-        private const string C_num = "One fish, Two fish\n";
         private const string C_color = "Red fish, Blue fish.";
         private const int C_DefaultLength = 1;
         private const int C_DefaultPoint = 100;
         private const int C_DefaultEraser = 50;
+        private Paper _testPaper;
+        private Pencil _testPencil;
 
-        private void WriteAndAssert(Pencil pencil, Paper paper, string textToWrite, string expected, int initialDurability, bool checkPoint=true)
+        [TestInitialize]
+        public void Setup()
         {
-            pencil.Write(paper, textToWrite);
-            Assert.AreEqual(paper.Text, expected);
-            if (checkPoint) Assert.IsTrue(pencil.GetPointValue() < initialDurability);
+            _testPaper = new Paper();
+            _testPencil = new Pencil(C_DefaultLength, C_DefaultPoint, C_DefaultEraser);
         }
 
         [TestMethod]
-        [DataRow(10, 50, C_color, C_color)]
-        [DataRow(10, 14, "Red fish, Blue      ", "Red fish, Blue      ")]
-        public void LengthDegradation(int length, int pointDurability, string expected1, string expected2)
+        public void LengthDegradation()
         {
-            var pencil = new Pencil(length, pointDurability, C_DefaultEraser);
-            Assert.AreEqual(pencil.Length, length);
-            WriteAndAssert(pencil, new Paper(), C_color, expected1, pointDurability);
-            pencil.Sharpen();
-            Assert.AreEqual(pencil.GetPointValue(), pointDurability);
-            Assert.AreEqual(pencil.Length, length-1);
-            WriteAndAssert(pencil, new Paper(), C_color, expected2, pointDurability);
+            Assert.AreEqual(C_DefaultLength, _testPencil.Length);
+            _testPencil.Sharpen();
+            Assert.AreEqual(C_DefaultLength-1, _testPencil.Length);
         }
 
         [TestMethod]
         public void SharpenWhenLengthZero()
         {
-            var paper = new Paper();
-            var pencil = new Pencil(0, C_DefaultPoint, C_DefaultEraser);
-            WriteAndAssert(pencil, paper, C_num, C_num, C_DefaultPoint);
-            pencil.Sharpen();
-            Assert.AreEqual(pencil.Length, 0);
-            Assert.IsTrue(pencil.GetPointValue() < C_DefaultPoint);
+            _testPencil = new Pencil(0, C_DefaultPoint, C_DefaultEraser);
+            _testPencil.Write(_testPaper, C_color);
+            _testPencil.Sharpen();
+            Assert.AreEqual(0, _testPencil.Length);
+            Assert.IsTrue(_testPencil.GetPointValue() < C_DefaultPoint);
+        }
+
+        [TestMethod]
+        public void PencilIntegration()
+        {
+            _testPencil.Write(_testPaper, C_color);
+            Assert.AreEqual(C_color, _testPaper.Text);
+            _testPencil.Erase(_testPaper, "Blue");
+            Assert.AreEqual("Red fish,      fish.", _testPaper.Text);
+            Assert.IsTrue(_testPencil.GetEraserValue() < C_DefaultEraser);
+            _testPencil.Write(_testPaper, "Pink", 10);
+            Assert.AreEqual("Red fish, Pink fish.", _testPaper.Text);
+            _testPencil.Sharpen();
+            Assert.AreEqual(C_DefaultPoint, _testPencil.GetPointValue());
         }
     }
 }
