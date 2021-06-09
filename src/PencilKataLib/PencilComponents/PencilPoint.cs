@@ -18,7 +18,7 @@
             for (int i = 0; i < textToWrite.Length; i++)
             {
                 var charToWrite = DegradePoint(textToWrite[i]); 
-                if (startIndex + i < paper.Text.Length && paper.Text[startIndex + i] != ' ') charToWrite = '@';
+                if (startIndex + i < paper.Text.Length && paper.Text[startIndex + i] != ' ') charToWrite = '@'; //if overwriting existing character
                 paper.ReceivePencil(charToWrite, startIndex + i);
             }
         }
