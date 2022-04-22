@@ -1,4 +1,4 @@
-# PillarTechPencilKata
+# Pencil Programming Challenge
 
 Steps to build and run tests.
 
